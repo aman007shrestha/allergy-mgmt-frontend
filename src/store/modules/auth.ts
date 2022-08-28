@@ -1,4 +1,4 @@
-import { userState } from '../interface'
+import { userState, IUserData } from '../interface'
 import { Commit } from 'vuex'
 import { createToast } from 'mosha-vue-toastify'
 import axios from 'axios'
@@ -14,7 +14,7 @@ const getters = {
   getAuth: (state: userState) => state,
 }
 const actions = {
-  async logIn({ commit }: { commit: Commit }, userData: any) {
+  async logIn({ commit }: { commit: Commit }, userData: IUserData) {
     commit('setLoadingStatus', true)
     try {
       const response = await axios.post(
@@ -38,7 +38,7 @@ const actions = {
       throw new Error(error)
     }
   },
-  async signUp({ commit }: { commit: Commit }, userData: any) {
+  async signUp({ commit }: { commit: Commit }, userData: IUserData) {
     commit('setLoadingStatus', true)
     try {
       await axios.post('http://localhost:5000/api/auth/register', userData)
