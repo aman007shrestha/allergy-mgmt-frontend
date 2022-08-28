@@ -1,0 +1,62 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+.auth__wrapper {
+  width: 400px;
+  margin: auto;
+  max-width: 500px;
+  padding: 20px 30px;
+  border-radius: 5px;
+  background-image: linear-gradient(to right, #ebedee, #b0dfcb);
+}
+.auth__info {
+  margin-top: 24px;
+  display: flex;
+  font-size: 18px;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+.form-controller {
+  margin-bottom: 10px;
+}
+.form-controller input {
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-family: inherit;
+  outline: none;
+}
+.btn {
+  padding: 8px 20px;
+  font-size: 14px;
+  outline: none;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn--primary {
+  background-color: #86e9bc;
+  color: #2c3e50;
+}
+.btn--secondary {
+  background-color: #bac9d8;
+  color: #2c3e50;
+}
+.btn--primary:hover {
+  background-color: #7bd1aa;
+}
+.btn--secondary:hover {
+  background-color: #a6bfd8;
+}
