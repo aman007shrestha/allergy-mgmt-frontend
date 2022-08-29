@@ -13,6 +13,7 @@
       <div class="form-controller">
         <label for="">Symptoms:</label>
         <textarea
+          required
           v-model="symptoms"
           placeholder="Add symptoms of allergy"
         ></textarea>
@@ -44,8 +45,13 @@
       <input
         type="file"
         @change="handleFileInput"
+        required
       />
     </div>
+    <i
+      class="fa-solid fa-xmark close--form"
+      @click="toggle"
+    ></i>
   </div>
 </template>
 
@@ -54,6 +60,7 @@ import { mapActions } from 'vuex'
 import { createToast } from 'mosha-vue-toastify'
 export default {
   name: 'AllergyForm',
+  props: ['toggle'],
   data() {
     return {
       name: '',
@@ -66,6 +73,10 @@ export default {
     ...mapActions(['addAllergy']),
     handleSubmit(e) {
       e.preventDefault()
+      if (!this.image) {
+        createToast('Upload png or jpg image', { type: 'warning' })
+        return
+      }
       const dataPayload = {
         name: this.name,
         symptoms: this.symptoms,
@@ -129,7 +140,7 @@ export default {
   box-shadow: #33475c9f 0px 4px 6px;
   border-radius: 5px;
   align-items: center;
-  margin-top: 20px;
+  position: relative;
 }
 form {
   width: 600px;
@@ -158,6 +169,7 @@ input[type='file'] {
   border: 1px #41b883 solid;
   position: relative;
   margin-bottom: 15px;
+  margin-right: 10px;
 }
 .img-container::after {
   content: 'Upload Image';
@@ -172,5 +184,13 @@ input[type='file'] {
   height: 100%;
   z-index: 5;
   object-fit: cover;
+}
+.close--form {
+  color: #33b97d;
+  font-size: 24px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
 }
 </style>
