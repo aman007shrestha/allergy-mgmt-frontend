@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Login from '@/components/Login.vue'
 import SignUp from '@/components/Signup.vue'
 export default {
@@ -29,7 +29,7 @@ export default {
     }
   },
   methods: {
-    toggleLoggedIn(): void {
+    toggleLoggedIn() {
       this.loggedIn = !this.loggedIn
     },
   },

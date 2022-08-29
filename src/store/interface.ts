@@ -19,3 +19,7 @@ export interface IAllergyState {
   allergies: IPosts[] | []
   isLoading: false
 }
+export type IAllergyToInsert = Omit<
+  IPosts,
+  'allergy_id' | 'created_at' | 'user_table_id'
+>
