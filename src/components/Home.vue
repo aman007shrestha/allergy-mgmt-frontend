@@ -1,6 +1,6 @@
 <template>
   <Spinner v-if="getAllergies.isLoading" />
-  Home Component
+  <h1>Allergy Management Home Component</h1>
 </template>
 
 <script lang="ts">
