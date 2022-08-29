@@ -51,6 +51,9 @@ export default {
 <style scoped>
 nav {
   height: 80px;
+  position: fixed;
+  top: 0;
+  z-index: 5;
   width: 100%;
   background-color: #f9f9f9;
   background-image: linear-gradient(
