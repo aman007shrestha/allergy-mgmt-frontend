@@ -22,8 +22,14 @@
             v-if="user_id === allergy.user_table_id"
             class="icons"
           >
-            <i class="fa-solid fa-pen"></i>
-            <i class="fa-solid fa-trash-can"></i
+            <i
+              class="fa-solid fa-pen"
+              @click="$emit('updateFormData', allergy)"
+            ></i>
+            <i
+              @click="handleDelete(allergy.allergy_id)"
+              class="fa-solid fa-trash-can"
+            ></i
           ></span>
         </div>
 
@@ -40,7 +46,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Card',
   computed: mapGetters(['getAuth']),
@@ -50,12 +56,17 @@ export default {
       user_id: null,
     }
   },
+  methods: {
+    ...mapActions(['deleteAllergy']),
+    handleDelete(id) {
+      if (confirm('Are you sure')) {
+        this.deleteAllergy(id)
+      }
+    },
+  },
   created() {
     this.user_id = this.getAuth.user.existingUser.user_id
   },
-  // created() {
-  //   console.log(this.allergy.created_at.toISOString().slice(0, 10))
-  // },
 }
 </script>
 

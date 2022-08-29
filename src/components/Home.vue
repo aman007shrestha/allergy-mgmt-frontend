@@ -1,4 +1,18 @@
 <template>
+  <button
+    v-if="!showForm"
+    @click="toggleForm"
+    class="btn btn-add"
+  >
+    Add Allergy
+  </button>
+  <AllergyForm
+    v-else
+    :toggle="toggleForm"
+    :update="update"
+    :formData="formData"
+    @resetData="resetData"
+  />
   <Spinner v-if="getAllergies.isLoading" />
   <div
     v-else
@@ -15,26 +29,51 @@
         :key="allergy.allergy_id"
         v-for="allergy in getAllergies.allergies"
         :allergy="allergy"
+        @updateFormData="updateFormData"
       />
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import Spinner from './LoadingSpinner.vue'
 import router from '@/router'
 import Card from '@/components/Card.vue'
+import AllergyForm from '@/components/AllergyForm.vue'
 export default defineComponent({
   name: 'Home',
   computed: mapGetters(['getAuth', 'getAllergies']),
   components: {
     Spinner,
     Card,
+    AllergyForm,
+  },
+  data() {
+    return {
+      showForm: false,
+      update: false,
+      formData: {},
+    }
   },
   methods: {
     ...mapActions(['fetchAllergies']),
+    toggleForm() {
+      this.showForm = !this.showForm
+      this.update = false
+      this.formData = {}
+    },
+    updateFormData(formData) {
+      this.formData = formData
+      this.update = true
+      this.showForm = true
+    },
+    resetData() {
+      this.showForm = false
+      this.update = false
+      this.formData = {}
+    },
   },
   created() {
     console.log(this.getAllergies)
@@ -82,5 +121,12 @@ export default defineComponent({
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 1rem;
+}
+.btn-add {
+  background: #41b883;
+  color: #fff;
+  border: 1px #41b883 solid;
+  cursor: pointer;
+  border-radius: 2px;
 }
 </style>
