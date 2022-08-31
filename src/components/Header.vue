@@ -23,24 +23,23 @@
 </template>
 
 <script>
-import { createToast } from 'mosha-vue-toastify'
 import { mapGetters, mapActions } from 'vuex'
 import router from '@/router'
+
 export default {
   name: 'Header',
   computed: mapGetters(['getAuth']),
+
   methods: {
     ...mapActions(['logout']),
-    toast() {
-      createToast('wow so easy', { type: 'success' })
-    },
     handleLogout() {
       this.logout()
       router.push('/login')
     },
   },
+
   created() {
-    const { isLoading, user } = this.getAuth
+    const { user } = this.getAuth
     if (!user) {
       router.push('/login')
     }

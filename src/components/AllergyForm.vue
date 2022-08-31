@@ -58,9 +58,12 @@
 <script>
 import { mapActions } from 'vuex'
 import { createToast } from 'mosha-vue-toastify'
+import { WARNING } from '../constants/constant'
+
 export default {
   name: 'AllergyForm',
   props: ['toggle', 'update', 'formData'],
+
   data() {
     return {
       name: '',
@@ -69,6 +72,7 @@ export default {
       image: '',
     }
   },
+
   created() {
     if (this.update) {
       this.name = this.formData.name
@@ -77,12 +81,14 @@ export default {
       this.image = this.formData.image
     }
   },
+
   methods: {
     ...mapActions(['addAllergy', 'updateAllergy']),
+
     handleSubmit(e) {
       e.preventDefault()
       if (!this.image) {
-        createToast('Upload png or jpg image', { type: 'warning' })
+        createToast('Upload png or jpg image', { type: WARNING })
         return
       }
       const dataPayload = {
@@ -106,18 +112,18 @@ export default {
       this.image = ''
       this.$emit('resetData')
     },
+
     handleFileInput(e) {
       if (!e.target.files) {
         return
       }
       const file = e.target.files[0]
-
       if (
         !file.name.endsWith('.jpg') &&
         !file.name.endsWith('.png') &&
         !file.name.endsWith('.gif')
       ) {
-        createToast('Upload png or jpg image', { type: 'warning' })
+        createToast('Upload png or jpg image', { type: WARNING })
         return
       }
       // reader

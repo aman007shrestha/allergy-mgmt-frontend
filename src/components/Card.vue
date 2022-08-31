@@ -47,15 +47,18 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'Card',
   computed: mapGetters(['getAuth']),
   props: ['allergy'],
+
   date() {
     return {
       user_id: null,
     }
   },
+
   methods: {
     ...mapActions(['deleteAllergy']),
     handleDelete(id) {
@@ -64,6 +67,7 @@ export default {
       }
     },
   },
+
   created() {
     this.user_id = this.getAuth.user.existingUser.user_id
   },
