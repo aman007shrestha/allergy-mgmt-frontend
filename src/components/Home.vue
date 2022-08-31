@@ -80,8 +80,6 @@ export default defineComponent({
   },
 
   created() {
-    console.log(this.getAllergies)
-
     const { user } = this.getAuth
     if (!user) {
       router.push('/login')

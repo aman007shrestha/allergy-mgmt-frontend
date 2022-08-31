@@ -83,7 +83,6 @@ export default {
         this.confirmPassword = ''
         return
       }
-      console.log(`${this.email}, ${this.password}, ${this.confirmPassword}`)
       const userData = { email: this.email, password: this.password }
       await this.signUp(userData)
       // toggle login view
