@@ -60,7 +60,7 @@ import { mapActions } from 'vuex'
 import { createToast } from 'mosha-vue-toastify'
 export default {
   name: 'AllergyForm',
-  props: ['toggle'],
+  props: ['toggle', 'update', 'formData'],
   data() {
     return {
       name: '',
@@ -69,8 +69,16 @@ export default {
       image: '',
     }
   },
+  created() {
+    if (this.update) {
+      this.name = this.formData.name
+      this.symptoms = this.formData.symptoms
+      this.severity = this.formData.severity
+      this.image = this.formData.image
+    }
+  },
   methods: {
-    ...mapActions(['addAllergy']),
+    ...mapActions(['addAllergy', 'updateAllergy']),
     handleSubmit(e) {
       e.preventDefault()
       if (!this.image) {
@@ -83,13 +91,20 @@ export default {
         severity: this.severity,
         image: this.image,
       }
-      console.log(dataPayload)
-      this.addAllergy(dataPayload)
+      if (this.update) {
+        this.updateAllergy({
+          payload: dataPayload,
+          id: this.formData.allergy_id,
+        })
+      } else {
+        this.addAllergy(dataPayload)
+      }
       // Reset form fields
       this.name = ''
       this.symptoms = ''
       this.severity = 2
       this.image = ''
+      this.$emit('resetData')
     },
     handleFileInput(e) {
       if (!e.target.files) {
@@ -112,8 +127,6 @@ export default {
         const imageElement = document.createElement('img')
         imageElement.src = e.target.result
         imageElement.onload = (e) => {
-          console.log(e.target.width)
-          console.log(e.target.height)
           const canvas = document.createElement('canvas')
           const MAX_WIDTH = 600
           const scaleRatio = MAX_WIDTH / e.target.width
