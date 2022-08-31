@@ -23,11 +23,13 @@ export default {
     Login,
     SignUp,
   },
+
   data() {
     return {
       loggedIn: true,
     }
   },
+
   methods: {
     toggleLoggedIn() {
       this.loggedIn = !this.loggedIn

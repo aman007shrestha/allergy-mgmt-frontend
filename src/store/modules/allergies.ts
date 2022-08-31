@@ -5,6 +5,16 @@ import {
   IPosts,
 } from '../interface'
 import { getConfig } from '@/utils/utils'
+import {
+  MAIN_URL,
+  SUCCESS,
+  DANGER,
+  SET_LOADING_STATUS,
+  SET_ALLERGIES,
+  ADD_ALLERGY,
+  UPDATE_ALLERGY,
+  DELETE_ALLERGY,
+} from '@/constants/constant'
 
 import { Commit } from 'vuex'
 import { createToast } from 'mosha-vue-toastify'
@@ -29,14 +39,11 @@ const actions = {
   }) {
     const token = rootState.auth.user.accessToken as string
     const config = getConfig(token)
-    commit('setLoadingStatus', true)
+    commit(SET_LOADING_STATUS, true)
     try {
-      const response = await axios.get(
-        'http://localhost:5000/api/allergy',
-        config
-      )
-      commit('setAllergies', response.data.data)
-      commit('setLoadingStatus', false)
+      const response = await axios.get(`${MAIN_URL}/api/allergy`, config)
+      commit(SET_ALLERGIES, response.data.data)
+      commit(SET_LOADING_STATUS, false)
     } catch (error: any) {
       const message =
         (error.response &&
@@ -44,11 +51,12 @@ const actions = {
           error.response.data.message) ||
         error.message ||
         error.toString()
-      createToast(message, { type: 'danger' })
-      commit('setLoadingStatus', false)
+      createToast(message, { type: DANGER })
+      commit(SET_LOADING_STATUS, false)
       throw new Error(error)
     }
   },
+  // POST request
   async addAllergy(
     {
       commit,
@@ -61,16 +69,16 @@ const actions = {
   ) {
     const token = rootState.auth.user.accessToken as string
     const config = getConfig(token)
-    commit('setLoadingStatus', true)
+    commit(SET_LOADING_STATUS, true)
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/allergy',
+        `${MAIN_URL}/api/allergy`,
         payload,
         config
       )
-      commit('addAllergy', response.data.data)
-      createToast(response.data.message, { type: 'success' })
-      commit('setLoadingStatus', false)
+      commit(ADD_ALLERGY, response.data.data)
+      createToast(response.data.message, { type: SUCCESS })
+      commit(SET_LOADING_STATUS, false)
     } catch (error: any) {
       const message =
         (error.response &&
@@ -78,8 +86,8 @@ const actions = {
           error.response.data.message) ||
         error.message ||
         error.toString()
-      createToast(message, { type: 'danger' })
-      commit('setLoadingStatus', false)
+      createToast(message, { type: DANGER })
+      commit(SET_LOADING_STATUS, false)
       throw new Error(error)
     }
   },
@@ -96,15 +104,15 @@ const actions = {
   ) {
     const token = rootState.auth.user.accessToken as string
     const config = getConfig(token)
-    commit('setLoadingStatus', true)
+    commit(SET_LOADING_STATUS, true)
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/allergy/${id}`,
+        `${MAIN_URL}/api/allergy/${id}`,
         config
       )
-      commit('deleteAllergy', id)
-      createToast(response.data.message, { type: 'success' })
-      commit('setLoadingStatus', false)
+      commit(DELETE_ALLERGY, id)
+      createToast(response.data.message, { type: SUCCESS })
+      commit(SET_LOADING_STATUS, false)
     } catch (error: any) {
       const message =
         (error.response &&
@@ -112,13 +120,13 @@ const actions = {
           error.response.data.message) ||
         error.message ||
         error.toString()
-      createToast(message, { type: 'danger' })
-      commit('setLoadingStatus', false)
+      createToast(message, { type: DANGER })
+      commit(SET_LOADING_STATUS, false)
       throw new Error(error)
     }
   },
+
   // PUT request
-  // Delete Request
   async updateAllergy(
     {
       commit,
@@ -131,17 +139,17 @@ const actions = {
   ) {
     const token = rootState.auth.user.accessToken as string
     const config = getConfig(token)
-    commit('setLoadingStatus', true)
+    commit(SET_LOADING_STATUS, true)
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/allergy/${id}`,
+        `${MAIN_URL}/api/allergy/${id}`,
         payload,
         config
       )
-      commit('updateAllergy', response.data.data)
+      commit(UPDATE_ALLERGY, response.data.data)
 
-      createToast(response.data.message, { type: 'success' })
-      commit('setLoadingStatus', false)
+      createToast(response.data.message, { type: SUCCESS })
+      commit(SET_LOADING_STATUS, false)
     } catch (error: any) {
       const message =
         (error.response &&
@@ -149,8 +157,8 @@ const actions = {
           error.response.data.message) ||
         error.message ||
         error.toString()
-      createToast(message, { type: 'danger' })
-      commit('setLoadingStatus', false)
+      createToast(message, { type: DANGER })
+      commit(SET_LOADING_STATUS, false)
       throw new Error(error)
     }
   },

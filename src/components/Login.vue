@@ -40,25 +40,36 @@
 import router from '@/router'
 import Spinner from './LoadingSpinner.vue'
 import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'Login',
   props: ['toggle'],
   components: { Spinner },
   computed: mapGetters(['getAuth']),
+
   data() {
     return {
       email: '',
       password: '',
     }
   },
+
   methods: {
     ...mapActions(['logIn']),
+
     async loginHandler(e) {
       e.preventDefault()
       const userData = { email: this.email, password: this.password }
       await this.logIn(userData)
       router.push('/')
     },
+  },
+
+  created() {
+    const { user } = this.getAuth
+    if (user) {
+      router.push('/')
+    }
   },
 }
 </script>

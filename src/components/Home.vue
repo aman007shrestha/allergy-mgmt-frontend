@@ -36,12 +36,13 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import { mapGetters, mapActions } from 'vuex'
 import Spinner from './LoadingSpinner.vue'
 import router from '@/router'
 import Card from '@/components/Card.vue'
 import AllergyForm from '@/components/AllergyForm.vue'
+import { defineComponent } from 'vue'
+import { mapGetters, mapActions } from 'vuex'
+
 export default defineComponent({
   name: 'Home',
   computed: mapGetters(['getAuth', 'getAllergies']),
@@ -50,6 +51,7 @@ export default defineComponent({
     Card,
     AllergyForm,
   },
+
   data() {
     return {
       showForm: false,
@@ -57,6 +59,7 @@ export default defineComponent({
       formData: {},
     }
   },
+
   methods: {
     ...mapActions(['fetchAllergies']),
     toggleForm() {
@@ -75,6 +78,7 @@ export default defineComponent({
       this.formData = {}
     },
   },
+
   created() {
     console.log(this.getAllergies)
 
@@ -87,7 +91,6 @@ export default defineComponent({
 })
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .wrapper {
   margin: 1rem 0;

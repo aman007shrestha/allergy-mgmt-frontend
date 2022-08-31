@@ -2,8 +2,17 @@ import { userState, IUserData } from '../interface'
 import { Commit } from 'vuex'
 import { createToast } from 'mosha-vue-toastify'
 import axios from 'axios'
+import {
+  MAIN_URL,
+  SET_LOADING_STATUS,
+  SET_LOGIN,
+  SET_LOGOUT,
+  SUCCESS,
+  DANGER,
+  USER_LOCALSTORAGE,
+} from '@/constants/constant'
 
-const user = JSON.parse(localStorage.getItem('user') as string)
+const user = JSON.parse(localStorage.getItem(USER_LOCALSTORAGE) as string)
 
 const state = {
   user: user ? user : null,
@@ -15,17 +24,17 @@ const getters = {
 }
 const actions = {
   async logIn({ commit }: { commit: Commit }, userData: IUserData) {
-    commit('setLoadingStatus', true)
+    commit(SET_LOADING_STATUS, true)
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/auth/login',
-        userData
-      )
+      const response = await axios.post(`${MAIN_URL}/api/auth/login`, userData)
       if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data.data))
+        localStorage.setItem(
+          USER_LOCALSTORAGE,
+          JSON.stringify(response.data.data)
+        )
       }
-      commit('setLogin', response.data.data)
-      commit('setLoadingStatus', false)
+      commit(SET_LOGIN, response.data.data)
+      commit(SET_LOADING_STATUS, false)
     } catch (error: any) {
       const message =
         (error.response &&
@@ -33,17 +42,17 @@ const actions = {
           error.response.data.message) ||
         error.message ||
         error.toString()
-      createToast(message, { type: 'danger' })
-      commit('setLoadingStatus', false)
+      createToast(message, { type: DANGER })
+      commit(SET_LOADING_STATUS, false)
       throw new Error(error)
     }
   },
   async signUp({ commit }: { commit: Commit }, userData: IUserData) {
-    commit('setLoadingStatus', true)
+    commit(SET_LOADING_STATUS, true)
     try {
-      await axios.post('http://localhost:5000/api/auth/register', userData)
-      commit('setLoadingStatus', false)
-      createToast('User Registered. Proceed login', { type: 'success' })
+      await axios.post(`${MAIN_URL}/api/auth/register`, userData)
+      commit(SET_LOADING_STATUS, false)
+      createToast('User Registered. Proceed login', { type: SUCCESS })
     } catch (error: any) {
       const message =
         (error.response &&
@@ -51,14 +60,14 @@ const actions = {
           error.response.data.message) ||
         error.message ||
         error.toString()
-      createToast(message, { type: 'danger' })
-      commit('setLoadingStatus', false)
+      createToast(message, { type: DANGER })
+      commit(SET_LOADING_STATUS, false)
       throw new Error(error)
     }
   },
   async logout({ commit }: { commit: Commit }) {
-    localStorage.removeItem('user')
-    commit('setLogout')
+    localStorage.removeItem(USER_LOCALSTORAGE)
+    commit(SET_LOGOUT)
   },
 }
 const mutations = {

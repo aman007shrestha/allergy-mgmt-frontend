@@ -45,10 +45,11 @@
 </template>
 
 <script>
-import router from '@/router'
 import Spinner from './LoadingSpinner.vue'
+import { DANGER, WARNING } from '../constants/constant'
 import { mapActions, mapGetters } from 'vuex'
 import { createToast } from 'mosha-vue-toastify'
+
 export default {
   name: 'Signup',
   props: ['toggle'],
@@ -56,6 +57,7 @@ export default {
   components: {
     Spinner,
   },
+
   data() {
     return {
       email: '',
@@ -63,19 +65,20 @@ export default {
       confirmPassword: '',
     }
   },
+
   methods: {
     ...mapActions(['signUp']),
+
     async signUpHandler(e) {
       e.preventDefault()
-
       if (this.password !== this.confirmPassword) {
-        createToast('Password dont match', { type: 'danger' })
+        createToast('Password dont match', { type: DANGER })
         this.password = ''
         this.confirmPassword = ''
         return
       }
       if (this.password.length <= 4) {
-        createToast('Password too weak', { type: 'warning' })
+        createToast('Password too weak', { type: WARNING })
         this.password = ''
         this.confirmPassword = ''
         return
